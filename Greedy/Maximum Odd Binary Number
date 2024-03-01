@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string maximumOddBinaryNumber(string s) {
+        
+        int n = s.size();
+
+        int ones = 0;
+        int zero = 0;
+
+        for(int i=0; i<s.size(); i++){
+            if(s[i]=='1') ones++ ;
+            else zero ++ ;
+        }
+
+        string ans ;
+
+        while(--ones){
+            ans.push_back('1');
+        }
+
+        while(zero--){
+            ans.push_back('0');
+        }
+
+        ans.push_back('1');
+
+        return ans;
+    }
+};
