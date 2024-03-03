@@ -1,0 +1,37 @@
+class Solution {
+public:
+    
+    typedef long long ll;
+    int minOperations(vector<int>& nums, int k) {
+        
+        priority_queue <int, vector<int>, greater<int>> pq;
+        
+        int n = nums.size();
+        
+        for (int i=0; i<n; i++){
+            if(nums[i]<k){
+                pq.push(nums[i]);
+            }
+        }
+        
+        int count = 0;
+        
+        while(!pq.empty() && pq.top()<k){
+            
+            if(pq.size()==1) return count+1;
+            
+            ll a = pq.top();
+            pq.pop();
+            ll b = pq.top();
+            pq.pop();
+            
+            ll c = (ll)min(a,b)*2 + max(a,b);
+            
+            if(c<k) pq.push(c);
+            
+            count++;
+        }
+        
+        return count;
+    }
+};
