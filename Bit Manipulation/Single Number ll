@@ -1,0 +1,31 @@
+class Solution {
+public:
+
+    // TC : O(N)
+    // SC : O(1)
+
+    int singleNumber(vector<int>& nums) {
+        
+        int ans = 0 ;
+
+        for (int i = 0; i<=31; i++){
+
+            // count the number of set ith bits in nums
+
+            int ones   = 0 ;
+
+            for (auto & num : nums){
+
+                int bit = (1<<i) & num ;
+
+                if(bit) ones++  ;
+            }
+
+            if(ones%3){
+                ans = ans | (1<<i) ;
+            }
+        }
+
+        return ans ;
+    }
+};
