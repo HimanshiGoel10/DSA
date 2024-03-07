@@ -1,0 +1,37 @@
+class Solution {
+public:
+
+    TreeNode* solve (vector<int>& preorder, int ps, int pe, vector<int>& inorder, int is, int ie){
+
+        if(ps>pe || is>ie) return NULL ;
+
+        if(ps==pe){
+            TreeNode * root = new TreeNode (preorder[ps]);
+            return root;
+        }
+
+        int rootval = preorder[ps] ;
+
+        int i=is;
+
+        while (i<=ie){
+            if(inorder[i]==rootval) break;
+            i++;
+        }
+
+        TreeNode * root = new TreeNode (rootval) ;
+
+        root->left = solve (preorder, ps+1, ps+i-is , inorder, is, i-1) ;
+
+        root->right = solve (preorder, ps+i-is+1 , pe, inorder, i+1, ie) ;
+
+        return root ;
+    }
+
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        
+        int n = preorder.size() ;
+
+        return solve (preorder, 0, n-1, inorder, 0, n-1) ;
+    }
+};
