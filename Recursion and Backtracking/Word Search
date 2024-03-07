@@ -1,0 +1,47 @@
+class Solution {
+public:
+
+    int m ;
+    int n ;
+
+    vector <vector<int>> directions = {{-1,0},{1,0},{0,-1},{0,1}} ;
+
+    bool solve (vector<vector<char>>& board, int i, int j, string word, int idx, vector <vector<bool>> &visited){
+
+        if (idx >= word.size()) return true ;
+
+        if(i<0 || i>=m || j<0 || j>=n || visited[i][j]) return false; 
+
+        if(board[i][j] != word[idx]) return false;
+
+        visited[i][j] = true ;
+
+        for (auto &dir : directions){
+
+            int new_i = dir[0]+i;
+            int new_j = dir[1]+j;
+
+            if(solve(board, new_i, new_j, word, idx+1, visited)) return true ;
+        }
+
+        visited[i][j] = false ;
+
+        return false;
+    }
+
+    bool exist(vector<vector<char>>& board, string word) {    
+        
+        m = board.size() ;
+        n = board[0].size() ;
+
+        for (int i = 0; i < m ; i++){
+            for (int j = 0 ; j < n ; j++){
+
+                vector <vector<bool>> visited (m, vector<bool>(n, false)) ;
+                if(solve(board, i, j, word, 0, visited)) return true ;
+            }
+        }
+
+        return false;
+    }
+};
