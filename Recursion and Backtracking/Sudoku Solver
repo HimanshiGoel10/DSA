@@ -1,0 +1,66 @@
+class Solution {
+public:
+
+    vector<vector<char>> ans ;
+
+    bool isValid (vector<vector<char>>& board,int num, int r, int c){
+
+        // check row & col
+
+        for (int k=0; k<9; k++){
+            if(board[r][k]==num+'0' || board[k][c]==num+'0') return false;
+        }
+
+        // check sub-box
+
+        if(r==1 || r==4 || r==7) r--;
+        if(r==2 || r==5 || r==8) r-=2;
+
+        if(c==1 || c==4 || c==7) c--;
+        if(c==2 || c==5 || c==8) c-=2;
+
+        for (int i=r; i<r+3; i++){
+            for(int j=c; j<c+3; j++){
+                if(board[i][j]==num+'0') return false;
+            }
+        }
+
+        return true;
+    }
+    
+    void solve (vector<vector<char>>& board, int r, int c){
+
+        if(r>=9){
+            ans = board;
+            return ;
+        }
+
+        if(c>=9) {
+            solve (board, r+1, 0) ;
+            return;
+        }
+
+        if(board[r][c] != '.'){
+            solve(board, r, c+1) ;
+            return ;
+        }
+
+        for (int i=1; i<=9; i++){
+
+            if(isValid(board,i,r,c)){
+                board[r][c] = i + '0';
+                solve (board,r,c+1) ;
+                board[r][c] = '.';
+            }
+        }
+
+    }
+
+    void solveSudoku(vector<vector<char>>& board) {
+        
+        solve (board, 0, 0) ;
+
+        board = ans ;
+
+    }
+};
