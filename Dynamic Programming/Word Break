@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        
+        unordered_map <string, bool> present ;
+
+        for (auto &word : wordDict){
+            present[word] = true ;
+        }
+
+        int n = s.size() ;
+
+        vector <bool> dp (n+1, false) ;
+        dp[n] = true ;
+
+        for (int i = n-1; i>=0; i--){
+
+            string t ;
+
+            for (int j = i ; j < n ; j++){
+
+                t+= s[j];
+
+                if(present[t] && dp[j+1]){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return dp[0];
+    }
+};
