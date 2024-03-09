@@ -1,0 +1,42 @@
+class Solution {
+public:
+
+    void solve (string &s, int idx, unordered_map <string,bool> &present, vector<string> &ans, string &curr){
+
+        if(idx>=s.size()){
+            ans.push_back(curr);
+            return;
+        }
+
+        string word ;
+        string newcurr = curr;
+
+        for (int i=idx; i<s.size(); i++){
+            word += s[i];
+
+            if(present[word]){
+
+                if(!curr.empty()) curr+=" ";
+                curr += word;
+                solve (s,i+1,present,ans,curr) ;
+                curr = newcurr;
+            }
+        }
+    }
+
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+
+        unordered_map <string,bool> present ;
+
+        for (auto &word : wordDict){
+            present[word] = true ;
+        }
+        
+        vector<string> ans ;
+        string curr ;
+
+        solve (s, 0, present, ans, curr);
+
+        return ans ;
+    }
+};
