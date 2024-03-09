@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+
+        int sum = accumulate (begin(nums), end(nums), 0) ;
+
+        if(sum % 2) return false;
+
+        sum /= 2 ;
+        
+        int n = nums.size() ;
+
+        vector <vector <bool>> dp (205, vector<bool> (20005, false)) ;
+
+        for (int i = 0 ; i <= n ; i++){
+            dp[i][sum] = true ;
+        }
+
+        for (int i = n-1 ; i >= 0 ; i--){
+            for (int j = 0 ; j <= 20004- nums[i]; j++){
+
+                dp[i][j] = (dp[i+1][j+nums[i]] || dp[i+1][j]);
+
+            }
+        }
+
+        return dp[0][0] ;
+    }
+};
