@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+
+        vector <int> done (1001, 0) ;
+        
+        // 0--> the elt is not in nums1
+        // 1--> the elt is nums1 and is not in answer
+        // 2--> the elt is already in answer 
+
+        for (auto &num : nums1){
+            done[num] = 1 ;
+        }
+
+        vector<int> ans;
+
+        for (auto &num : nums2){
+
+            if(done[num]==1){
+                ans.push_back(num);
+                done[num] = 2;
+            }
+        }
+
+        return ans ;
+    }
+};
