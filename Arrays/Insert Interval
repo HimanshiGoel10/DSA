@@ -1,0 +1,34 @@
+class Solution {
+public:
+
+    vector<vector<int>> merge (vector<vector<int>>& intervals){
+
+        vector<vector<int>> op ;
+
+        int n = 0 ;
+        op.push_back(intervals[0]) ;
+
+        for (int i = 1; i<intervals.size(); i++){
+
+            if(intervals[i][0] <= op[n][1]){
+                op[n][1] = max(op[n][1], intervals[i][1]);
+            }
+
+            else{
+                op.push_back(intervals[i]);
+                n++;
+            }
+        }
+
+        return op ;
+    }
+    
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        
+        auto it = upper_bound (begin(intervals), end(intervals), newInterval) ;
+
+        intervals.insert(it, newInterval) ;
+
+        return merge (intervals) ;
+    }
+};
