@@ -1,0 +1,38 @@
+class Solution {
+public:
+
+    int dp[13][10001] ;
+
+    int solve (vector<int>& coins,int si, int money, int amount){
+
+        if( money == amount){
+            return 0;
+        }
+
+        if(si >= coins.size() || money > amount) return 1e9;
+
+        if(dp[si][money] != -1) return dp[si][money];
+
+        int a = 1e9;
+        int b = 1e9;
+
+        // take coin
+        if(coins[si] <= amount) a = 1+solve(coins, si, money+coins[si], amount) ;
+
+        //not take
+        b = solve(coins, si+1, money, amount);
+
+        return dp[si][money] = min(a, b) ;
+    }
+
+    int coinChange(vector<int>& coins, int amount) {
+
+        memset(dp,-1,sizeof(dp));
+
+        int ans = solve (coins, 0, 0, amount) ;
+
+        if(ans >= 1e9) return -1;
+
+        return ans ;
+    }
+};
