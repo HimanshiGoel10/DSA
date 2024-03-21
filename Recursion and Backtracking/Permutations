@@ -1,0 +1,38 @@
+class Solution {
+public:
+
+    void backtrack (vector<int>& nums, vector<int> &curr, vector<vector<int>> &op, unordered_map <int,bool> &done){
+
+        if(curr.size()==nums.size()){
+            op.push_back(curr);
+            return;
+        }
+
+        for(int i=0; i<nums.size(); i++){
+
+            if(!done[i]){
+
+                done[i]=true;
+                curr.push_back(nums[i]);
+
+                backtrack (nums,curr,op,done);
+
+                done[i]=false;
+                curr.pop_back();
+            }
+        }
+    }
+
+    vector<vector<int>> permute(vector<int>& nums) {
+        
+        unordered_map <int,bool> done ;
+
+        vector<vector<int>> op ;
+
+        vector<int> curr ;
+
+        backtrack (nums, curr, op, done) ;
+
+        return op ;
+    }
+};
