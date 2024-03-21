@@ -1,0 +1,60 @@
+class Solution {
+public:
+
+    int dp[50001] ;
+
+    void find (vector <vector<int>> &v, int si, int ei, int target, int &idx){
+
+        if(si>ei){
+            return;
+        }
+
+        int mid = ei - (ei-si)/2 ;
+
+        if(v[mid][0] >= target){
+            idx = mid;
+            ei = mid-1;
+        }
+
+        else{
+            si = mid+1 ;
+        }
+
+        find (v, si, ei, target, idx) ;
+    } 
+
+    int solve (vector <vector<int>> &v, int si){
+
+        if(si >= v.size()) return 0;
+
+        if(dp[si] != -1) return dp[si];
+
+        // not do this job
+
+        int a = solve (v, si+1);
+
+        // do the job
+
+        int idx = v.size();
+        
+        find (v, si, v.size()-1, v[si][1], idx) ;
+
+        int b = v[si][2] + solve (v, idx);
+
+        return dp[si] = max(a,b) ;
+    }
+    int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
+
+        memset(dp,-1,sizeof(dp)) ;
+        
+        vector <vector<int>> v ;
+
+        for (int i=0; i<startTime.size(); i++){
+            v.push_back({startTime[i], endTime[i], profit[i]});
+        }
+
+        sort(begin(v), end(v));
+
+        return solve (v, 0) ;
+    }
+};
