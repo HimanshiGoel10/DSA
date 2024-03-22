@@ -1,0 +1,46 @@
+class Solution {
+public:
+
+    ListNode* reverse (ListNode*head){
+
+        if(head==NULL || head->next==NULL) return head;
+
+        ListNode* add = reverse(head->next);
+
+        head->next->next = head;
+        head->next = NULL;
+
+        return add ;
+    }
+
+    bool isPalindrome(ListNode* head) {
+        
+        // find middle of ll O(N)
+
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast!=NULL && fast->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        if(fast != NULL) slow = slow->next;
+
+        // reverse the slow to get head of other ll O(N)
+
+        ListNode* newhead = reverse (slow) ;
+
+        // now start equating head and newhead O(N)
+
+        while(newhead != NULL){
+
+            if(head->val != newhead->val) return false;
+
+            head = head->next;
+            newhead = newhead->next;
+        }
+
+        return true;
+    }
+};
