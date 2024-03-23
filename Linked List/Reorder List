@@ -1,0 +1,52 @@
+class Solution {
+public:
+
+    ListNode* reverse (ListNode* head){
+
+        if(head==NULL || head->next==NULL) return head;
+
+        ListNode* add = reverse (head->next) ;
+        head->next->next = head;
+        head->next = NULL;
+
+        return add;
+    }
+    void reorderList(ListNode* head) {
+        
+        // find middle
+
+        ListNode* prev = NULL ;
+        ListNode* slow = head ;
+        ListNode* fast = head ;
+
+        while (fast != NULL && fast->next != NULL){
+
+            prev = slow         ;
+            slow = slow -> next ;
+            fast = fast -> next -> next ;
+        }
+
+        if(fast!=NULL){
+            prev = slow       ;
+            slow = slow->next ;
+        }
+
+        prev -> next = NULL ;
+
+        ListNode* temp2 = reverse (slow) ;
+
+        ListNode* temp1 = head;
+
+        while (temp2 != NULL){
+
+            ListNode* node1 = temp1->next ;
+            ListNode* node2 = temp2->next ;
+
+            temp1 -> next = temp2 ;
+            temp1 = node1 ;
+            temp2 -> next = temp1 ;
+
+            temp2 = node2 ;
+        }
+    }
+};
