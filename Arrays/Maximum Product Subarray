@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        
+        int maxProd = nums[0] ;
+        int currMaxProd = nums[0] ;
+        int currMinProd = nums[0] ;
+
+        for (int i=1; i< nums.size(); i++){
+
+            int num = nums[i] ;
+
+            int newcurrMaxProd = max(num, max(currMaxProd*num, currMinProd*num)) ;
+            int newcurrMinProd = min(num, min(currMaxProd*num, currMinProd*num)) ;
+
+            currMaxProd = newcurrMaxProd ;
+            currMinProd = newcurrMinProd ;
+
+            maxProd = max(maxProd, currMaxProd);
+        }
+
+        return maxProd ;
+    }
+};
