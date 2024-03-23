@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+
+        // sort : no space but O(NlogN) time
+        // map  : O(N) space but linear time
+        
+        unordered_map <int,bool> mp;
+
+        for (auto &num : nums){
+
+            if(mp[num]) return true;
+            mp[num] = true;
+        }
+
+        return false ;
+    }
+};
