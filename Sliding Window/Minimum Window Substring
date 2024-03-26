@@ -1,0 +1,69 @@
+class Solution {
+public:
+    bool covers (unordered_map <char,int> &mp1, unordered_map <char,int> &mp2){
+
+        for (auto it =  mp2.begin(); it != mp2.end(); it++){
+            if(mp1[it->first] < it->second) return false;
+        }
+
+        return true ;
+    }
+    string minWindow(string s, string t) {
+        
+        int i = 0 ;
+        int j = 0 ;
+
+        int min_len = 1e9 ; 
+
+        int ans_i = 0 ;
+        int ans_j = 0 ;
+
+        int n = s.size();
+
+        unordered_map <char,int> mp1;
+        unordered_map <char,int> mp2;
+
+        for (auto &ch : t){
+            mp2[ch]++;
+        }
+
+        while (i<n){
+
+            while(j<n && !covers(mp1,mp2)){
+                mp1[s[j]]++;
+                j++;
+            }
+
+            if(covers(mp1,mp2)){
+
+                if(j-i < min_len){
+                    min_len = j-i;
+                    ans_i = i;
+                    ans_j=  j; 
+                }
+            }
+
+            else break;
+
+            while(i<n && covers(mp1,mp2)){
+                mp1[s[i]]--;
+
+                if (j-i < min_len){
+                    min_len = j-i;
+                    ans_i = i;
+                    ans_j=  j; 
+                }
+
+                i++;
+            }
+        }
+
+        if(min_len >= 1e9) return "";
+
+        string ans;
+
+        for (int i=ans_i; i<ans_j; i++) ans+= s[i];
+
+        return ans;
+    }
+};
