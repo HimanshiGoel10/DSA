@@ -1,0 +1,30 @@
+class Solution {
+public:
+
+    typedef long long ll ;
+
+    long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+
+        int n = nums.size() ;
+
+        ll ans = 0 ;
+
+        int minKPos = -1;
+        int maxKPos = -1;
+        int culprit = -1;
+
+        for (int i=0; i<nums.size(); i++){
+
+            if(nums[i]<minK || nums[i]>maxK) culprit = i ;
+
+            if(nums[i] == minK) minKPos = i ;
+            if(nums[i] == maxK) maxKPos = i ;
+
+            int temp = min (minKPos, maxKPos) ;
+
+            ans += (ll) max(0, temp-culprit) ;
+        }
+
+        return ans ;
+    }
+};
