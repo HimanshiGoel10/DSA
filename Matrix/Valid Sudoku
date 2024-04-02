@@ -1,0 +1,61 @@
+class Solution {
+public:
+    
+    bool ValidRow (vector<vector<char>>& board, int row){
+
+        unordered_map <char,bool> done ;
+
+        for(int j=0; j<9; j++){
+            if(board[row][j]!='.' && done[board[row][j]]) return false;
+            done[board[row][j]] = true ;
+        }
+
+        return true ;
+    }
+
+    bool ValidCol (vector<vector<char>>& board, int col){
+
+        unordered_map <char,bool> done ;
+
+        for(int i=0; i<9; i++){
+            if(board[i][col]!='.' && done[board[i][col]]) return false;
+            done[board[i][col]] = true ;
+        }
+
+        return true ;
+    }
+
+    bool ValidBox (vector<vector<char>>& board, int r, int c){
+
+        unordered_map <char,bool> done ;
+
+        for(int i=r; i<r+3; i++){
+            for(int j=c; j<c+3; j++){
+                if(board[i][j]!='.' && done[board[i][j]]) return false;
+                done[board[i][j]] = true ;
+            }
+        }
+
+        return true;
+    }
+
+    bool isValidSudoku(vector<vector<char>>& board) {
+        
+        // check all rows and cols
+        
+        for(int i=0; i<9; i++){
+            
+            if(!ValidRow (board, i) || !ValidCol (board, i)) return false ;
+        }
+        
+        // check 9 sub-boxes 
+
+        for(int i=0; i<=6; i+=3){
+            for(int j=0; j<=6; j+=3){
+                if(!ValidBox (board,i,j)) return false;
+            }
+        }
+
+        return true ;
+    }
+};
