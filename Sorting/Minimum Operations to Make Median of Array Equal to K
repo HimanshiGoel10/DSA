@@ -1,0 +1,32 @@
+class Solution {
+public:
+    
+    typedef long long ll;
+    
+    long long minOperationsToMakeMedianK(vector<int>& nums, int k) {
+        
+        sort(begin(nums), end(nums));
+        
+        int n = nums.size();
+        
+        int mid = n/2 ;
+        
+        ll ans = abs(k-nums[mid]);
+        
+        int i = mid+1;
+        
+        while(i<n && nums[i]<k){
+            ans += (ll) (k-nums[i]);
+            i++;
+        }
+        
+        i = mid-1;
+        
+        while(i>=0 && nums[i]>k){
+            ans += (ll) (nums[i]-k);
+            i--;
+        }
+        
+        return ans;
+    }
+};
