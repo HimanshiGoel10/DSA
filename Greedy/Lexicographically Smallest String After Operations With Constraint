@@ -1,0 +1,28 @@
+class Solution {
+public:
+    string getSmallestString(string s, int k) {
+        
+        int n = s.size();
+        
+        int i = 0;
+        
+        while(k>0 && i < n){
+            
+            int dist_from_a = min(s[i]-'a', 26-(s[i]-'a')) ;
+            
+            if(dist_from_a > k){
+                s[i] = s[i]-k;
+                k=0;
+            }
+            
+            else{
+                s[i]='a';
+                k-= dist_from_a;
+            }
+            
+            i++;
+        }
+        
+        return s;
+    }
+};
