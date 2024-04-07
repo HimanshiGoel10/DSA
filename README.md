@@ -12,6 +12,7 @@ The repository is structured as follows:
 
 - **Daily Challenges**: Solutions to the daily challenges posted on LeetCode.
 - **Standard Problems**: Solutions to other standard and frequently asked problems on LeetCode.
+- **Contest Problems**: Solutions to weekly and biweekly contest problems on LeetCode.
 
 ## How to Use
 
