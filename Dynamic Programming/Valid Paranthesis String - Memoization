@@ -1,0 +1,31 @@
+class Solution {
+public:
+
+    int dp[101][101][101];
+
+    bool solve (string &s, int idx, int open, int close){
+
+        if(close > open) return false;
+
+        if(idx >=s.size()) return open==close ;
+
+        if(dp[idx][open][close] !=-1 ) return dp[idx][open][close];
+
+        if(s[idx]=='('){
+            return dp[idx][open][close] = solve (s, idx+1, open+1, close) ;
+        }
+
+        if(s[idx]==')'){
+            return dp[idx][open][close] = solve (s, idx+1, open, close+1) ;
+        }
+
+        return dp[idx][open][close] = 
+        solve (s, idx+1, open+1, close) || solve (s, idx+1, open, close+1) || solve (s, idx+1, open, close);
+    }
+    bool checkValidString(string s) {
+
+        memset(dp,-1,sizeof(dp)) ;
+        
+        return solve (s, 0, 0, 0) ;
+    }
+};
