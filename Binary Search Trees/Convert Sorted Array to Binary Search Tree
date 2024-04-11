@@ -1,0 +1,21 @@
+class Solution {
+public:
+
+    TreeNode* convert (vector<int>& nums, int si, int ei){
+
+        if(si>ei) return NULL;
+
+        int mid = ei - (ei-si)/2 ;
+
+        TreeNode* node = new TreeNode(nums[mid]);
+
+        node->left = convert (nums, si, mid-1) ;
+        node->right = convert(nums, mid+1, ei) ;
+
+        return node ;
+    }
+
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return convert (nums,0,nums.size()-1);
+    }
+};
