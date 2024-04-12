@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool bipartite (unordered_map <int, vector<int>> &adj, int u,  vector<int> &colored, int color){
+
+        colored[u] = color;
+
+        for (int &v : adj[u]){
+
+            if(colored[v]==color) return false;
+
+            else if (colored[v]==-1){
+                if(!bipartite(adj,v,colored,1-color)) return false;
+            }
+        }
+
+        return true;
+    } 
+
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        
+        // 1. create graph
+
+        unordered_map <int, vector<int>> adj;
+
+        for (int i = 0; i < dislikes.size(); i++){
+            adj[dislikes[i][0]].push_back(dislikes[i][1]);
+            adj[dislikes[i][1]].push_back(dislikes[i][0]);
+        }
+
+        // 2. check bipartition
+
+        vector<int> colored (n+1, -1);
+
+        for (int i=1; i<=n; i++){
+
+            if (colored[i] == -1){
+                if(!bipartite(adj,i,colored, 0)) return false;
+            }
+        }
+
+        return true;
+    }
+};
