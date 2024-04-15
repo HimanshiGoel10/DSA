@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int solve (TreeNode* root, int currnum, int sum){
+
+        if(root==NULL){
+            return sum;
+        }
+
+        if(root->left==NULL && root->right==NULL){
+            currnum = currnum*10 + root->val;
+            sum += currnum;
+            return sum;
+        }
+
+        currnum = currnum*10 + root->val;
+
+        return solve (root->left, currnum, sum) + solve (root->right, currnum, sum) ;
+    }
+    int sumNumbers(TreeNode* root) {
+        return solve (root, 0, 0) ;
+    }
+};
