@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    void solve (TreeNode* root, string curr, vector <string> &vec){
+    void solve (TreeNode* root, string curr, string &ans){
 
         if(root==NULL) return;
 
@@ -10,23 +10,22 @@ public:
         curr = (ch) + curr;
 
         if(root->left == NULL && root->right==NULL){
-            vec.push_back(curr);
+            if(ans=="") ans = curr;
+            else ans = min(ans,curr);
             return;
         }
 
-        solve (root->left, curr, vec);
-        solve (root->right, curr, vec);
+        solve (root->left, curr, ans);
+        solve (root->right, curr, ans);
 
     }
 
     string smallestFromLeaf(TreeNode* root) {
 
-        vector <string> vec ;
+        string ans;
         
-        solve (root, "", vec);
+        solve (root, "", ans);
 
-        sort(begin(vec), end(vec));
-
-        return vec[0];
+        return ans;
     }
 };
