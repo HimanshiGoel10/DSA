@@ -1,0 +1,32 @@
+class Solution {
+public:
+    
+    void solve (TreeNode* root, string curr, vector <string> &vec){
+
+        if(root==NULL) return;
+
+        char ch = root->val+'a';
+
+        curr = (ch) + curr;
+
+        if(root->left == NULL && root->right==NULL){
+            vec.push_back(curr);
+            return;
+        }
+
+        solve (root->left, curr, vec);
+        solve (root->right, curr, vec);
+
+    }
+
+    string smallestFromLeaf(TreeNode* root) {
+
+        vector <string> vec ;
+        
+        solve (root, "", vec);
+
+        sort(begin(vec), end(vec));
+
+        return vec[0];
+    }
+};
