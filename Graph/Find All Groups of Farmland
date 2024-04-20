@@ -1,0 +1,58 @@
+class Solution {
+public:
+
+    int m;
+    int n;
+
+    int maxrow;
+    int maxcol;
+
+    vector <vector<int>> directions = {{-1,0},{1,0},{0,-1},{0,1}};
+
+    bool safe (int i, int j){
+        return i>=0 && i<m && j>=0 && j<n;
+    }
+
+    void dfs (vector<vector<int>>& land, int i, int j, vector<vector<bool>> &visited){
+
+        if(visited[i][j]) return;
+
+        visited[i][j] = true;
+
+        maxrow = max(maxrow, i);
+        maxcol = max(maxcol, j);
+
+        for (auto &dir : directions){
+            int new_i = i + dir[0];
+            int new_j = j + dir[1];
+
+            if(safe(new_i, new_j) && land[new_i][new_j]){
+                dfs(land, new_i, new_j, visited);
+            }
+        }
+    }
+
+    vector<vector<int>> findFarmland(vector<vector<int>>& land) {
+        
+        m = land.size();
+        n = land[0].size();
+
+        vector<vector<int>> ans ;
+
+        vector<vector<bool>> visited (m, vector<bool>(n,false));
+
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(land[i][j] && !visited[i][j]){
+                    maxrow = i;
+                    maxcol = j;
+                    dfs (land, i, j, visited);
+
+                    ans.push_back({i,j,maxrow,maxcol});
+                }
+            }
+        } 
+
+        return ans;
+    }
+};
