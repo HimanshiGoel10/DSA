@@ -1,0 +1,37 @@
+class Solution {
+public:
+
+    void dfs (unordered_map <int,vector<int>> &adj, vector<bool> &visited, int u, int dest, bool &ans){
+
+        if(u==dest){
+            ans = true;
+            return;
+        }
+
+        if(visited[u]) return;
+
+        visited[u] = true;
+
+        for(auto &v : adj[u]){
+            dfs (adj, visited, v, dest, ans);
+        }
+    }
+
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+        
+        bool ans = false;
+
+        unordered_map <int,vector<int>> adj;
+
+        for(auto &edge : edges){
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
+        }
+
+        vector<bool> visited (n, false);
+
+        dfs (adj, visited, source, destination, ans);
+
+        return ans ;
+    }
+};
