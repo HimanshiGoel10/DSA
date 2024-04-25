@@ -1,0 +1,31 @@
+class Solution {
+public:
+
+    int dp[100001][27];
+
+    char ch = 'a'+26;
+
+    int solve (string &s, int k, int idx, char last){
+
+        if(idx>=s.size()) return 0;
+
+        if(dp[idx][last-'a'] != -1) return dp[idx][last-'a'];
+
+        int diff = abs(s[idx]-last);
+
+        int a = 0 ;
+
+        if(diff<=k || last==ch){
+            a = 1+solve(s,k,idx+1,s[idx]);
+        }
+
+        return dp[idx][last-'a'] = max (a, solve(s,k,idx+1,last));
+    }
+
+    int longestIdealString(string s, int k) {
+
+        memset(dp,-1,sizeof(dp));
+
+        return solve (s, k, 0, ch) ;
+    }
+};
