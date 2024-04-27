@@ -1,0 +1,68 @@
+class Solution {
+public:
+    int n;
+
+    int dp[101][101];
+
+    int solve(string ring, int idx, string key, int k) {
+
+        if (k >= key.size()) return 0;
+
+        if(dp[idx-n][k] !=-1) return dp[idx-n][k]; 
+
+        int i = idx;
+        int j = idx;
+
+        int left_steps = 0;
+        int right_steps = 0;
+
+        while (i >= 0) {
+
+            if (ring[i] == key[k])
+                break;
+            i--;
+            left_steps++;
+        }
+
+        while (j < ring.size()) {
+
+            if (ring[j] == key[k])
+                break;
+            j++;
+            right_steps++;
+        }
+
+        if (i < n) {
+            i += n;
+            
+        }
+
+        else if (i >= 2 * n) {
+            i -= n;
+            
+        }
+
+        if (j < n) {
+            
+            j += n;
+        }
+
+        else if (j >= 2 * n) {
+            
+            j -= n;
+        }
+
+        return dp[idx-n][k] = 1 + min(solve (ring, i, key, k+1)+left_steps,solve (ring, j, key, k+1)+right_steps);
+    }
+
+    int findRotateSteps(string ring, string key) {
+
+        n = ring.size();
+
+        memset(dp,-1,sizeof(dp));
+
+        ring += ring + ring;
+
+        return solve(ring, n, key, 0);
+    }
+};
