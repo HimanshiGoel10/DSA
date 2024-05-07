@@ -1,0 +1,47 @@
+class Solution {
+public:
+    ListNode* reverse (ListNode* head){
+
+        if(head==NULL || head->next==NULL) return head;
+
+        ListNode* add = reverse (head->next);
+
+        head->next->next = head;
+        head->next = NULL;
+
+        return add;
+    }
+    ListNode* doubleIt(ListNode* head) {
+
+        ListNode* add = reverse(head);
+
+        ListNode* temp = add;
+
+        ListNode* pre = temp;
+
+        int carry = 0 ;
+
+        int num = 0 ;
+
+        while(temp != NULL){
+
+            num = (temp->val * 2) + carry;
+
+            temp->val = num%10;
+
+            carry = num/10 ;
+
+            pre = temp;
+
+            temp = temp->next;
+        }
+
+        if(carry){
+            ListNode* node = new ListNode(carry);
+
+            pre->next = node;
+        }
+
+        return reverse(add);
+    }
+};
