@@ -1,0 +1,26 @@
+class Solution {
+public:
+
+    typedef long long ll;
+
+    long long maximumHappinessSum(vector<int>& happiness, int k) {
+        
+        priority_queue <ll> pq;
+
+        ll ans = 0 ;
+
+        for (auto & happy: happiness){
+            pq.push(happy);
+        }
+
+        for(int i=0; i<k; i++){
+
+            if(i>pq.top())break;
+            
+            ans += (ll) pq.top()-i;
+            pq.pop();
+        }
+
+        return ans;
+    }
+};
