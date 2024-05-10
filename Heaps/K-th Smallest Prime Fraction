@@ -1,0 +1,28 @@
+class Solution {
+public:
+
+    typedef pair<double, pair<int,int>> p;
+
+    vector<int> kthSmallestPrimeFraction(vector<int>& arr, int k) {
+        
+        priority_queue <p> pq ;
+
+        for(int i=0; i<arr.size(); i++){
+            for(int j=i+1; j<arr.size(); j++){
+
+                double d1 = (double)arr[i]/arr[j];
+
+                if(pq.size()<k){
+                    pq.push({d1, {arr[i],arr[j]}});
+                }
+
+                else if( d1 < pq.top().first){
+                    pq.pop();
+                    pq.push({d1, {arr[i],arr[j]}});
+                }
+            }
+        }
+
+        return {pq.top().second.first, pq.top().second.second};
+    }
+};
