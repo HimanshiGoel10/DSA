@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<int>> largestLocal(vector<vector<int>>& grid) {
+        
+        int n = grid.size();
+
+        vector<vector<int>> op ((n - 2), vector<int>((n - 2), 0)) ;
+
+        for(int i=0; i<=n-3; i++){
+            for(int j=0; j<=n-3; j++){
+
+                // find largest
+
+                int largest = 0;
+
+                for(int a=i; a<i+3; a++){
+                    for(int b=j; b<j+3; b++){
+                        largest = max(largest, grid[a][b]);
+                    }
+                }
+
+                op[i][j] = largest;
+            }
+        }
+
+        return op;
+    }
+};
