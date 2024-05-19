@@ -1,0 +1,37 @@
+class Solution {
+public:
+
+    typedef long long ll;
+
+    long long maximumValueSum(vector<int>& nums, int k, vector<vector<int>>& edges) {
+
+        int least_loss   = INT_MAX;
+        int least_profit = INT_MAX;
+
+        int count = 0;
+
+        ll ans = 0;
+
+        for (int &num : nums){
+
+            int new_num = num^k;
+
+            if(new_num > num){
+                count++;
+                ans+= (ll)new_num;
+                least_profit = min(least_profit, new_num-num);
+            }
+
+            else{
+                ans+= (ll)num;
+                least_loss = min(least_loss, num-new_num);
+            }
+        }
+
+        if(count%2){
+            return max(ans-least_profit, ans-least_loss);
+        }
+
+        return ans;    
+    }
+};
