@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool palindrome (string &s, int si, int ei){
+
+        if(si>=ei) return true;
+
+        return (s[si]==s[ei]) && palindrome (s, si+1, ei-1);
+    }
+    void solve (string &s, int idx, vector<string> &curr, vector<vector<string>> &op){
+
+        if(idx>=s.size()){
+            op.push_back(curr);
+            return;
+        }
+
+        string t;
+
+        for(int i=idx; i<s.size(); i++){
+            t += s[i];
+
+            if(palindrome(s,idx,i)){
+                curr.push_back(t);
+                solve(s,i+1,curr,op);
+                curr.pop_back();
+            }
+        }
+    }
+    vector<vector<string>> partition(string s) {
+
+        vector<string> curr;
+        vector<vector<string>> op;
+
+        solve (s, 0, curr, op);
+
+        return op;
+    }
+};
