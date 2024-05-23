@@ -1,0 +1,36 @@
+class Solution {
+public:
+
+    void backtrack (vector<int>& nums, int idx, int k, unordered_map <int,bool> &mp, int &ans){
+
+        if(idx>=nums.size()){
+            ans++;
+            return;
+        }
+
+        backtrack (nums, idx+1, k, mp, ans);
+
+        if(!mp[nums[idx]-k]){
+
+            mp[nums[idx]] = true;
+
+            backtrack (nums, idx+1, k, mp, ans);
+
+            mp[nums[idx]] = false;
+
+        }
+    }
+
+    int beautifulSubsets(vector<int>& nums, int k) {
+
+        sort(begin(nums), end(nums));
+        
+        int ans = 0;
+
+        unordered_map <int,bool> mp;
+
+        backtrack (nums, 0, k, mp, ans);
+
+        return ans-1; // removing empty subset
+    }
+};
