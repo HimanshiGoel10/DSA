@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int possible (string &word, unordered_map <char, int> &mp , vector<int>& score){
+
+        vector<int> v (26,0);
+
+        int pts=0;
+
+        for(auto &ch : word){
+            v[ch-'a']++;
+        }
+
+        for(int i=0; i<26; i++){
+            if(v[i] > mp['a'+i]) return -1;
+        }
+
+        for(auto &ch : word){
+            mp[ch]--;
+            pts += score[ch-'a'];
+        }
+
+        return pts;
+
+    }
+
+    void correct_map (string &word, unordered_map <char, int> &mp){
+        for(auto &ch : word){
+            mp[ch]++;
+        }
+    }
+    int solve (vector<string>& words, int idx, unordered_map <char, int> &mp, vector<int>& score){
+
+        if(idx >= words.size()){
+            return 0;
+        }
+
+        int take = possible (words[idx], mp, score) ;
+
+        if(take != -1){
+            take += solve (words,idx+1,mp,score);
+
+            correct_map (words[idx], mp);
+        }
+
+        else take = 0;
+
+        return max (take, solve(words,idx+1,mp,score));
+    }
+    int maxScoreWords(vector<string>& words, vector<char>& letters, vector<int>& score) {
+        
+        unordered_map <char, int> mp;
+
+        for (auto &letter : letters){
+            mp[letter]++;
+        }
+
+        return solve (words, 0, mp, score);
+    }
+};
