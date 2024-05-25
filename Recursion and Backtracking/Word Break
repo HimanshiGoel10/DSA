@@ -1,0 +1,36 @@
+class Solution {
+public:
+    
+    int dp[301];
+
+    bool solve (string s, int idx, unordered_map <string,bool> &mp){
+
+        if(idx>=s.size()){
+            return true;
+        }
+
+        if(dp[idx]!=-1) return dp[idx];
+
+        string t;
+
+        for(int i=idx; i<s.size(); i++){
+            t+= s[i];
+
+            if(mp[t] && solve(s,i+1,mp)) return dp[idx]=true;
+        }
+
+        return dp[idx]=false;
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+
+        memset(dp,-1,sizeof(dp));
+        
+        unordered_map <string,bool> mp;
+
+        for (auto &word: wordDict){
+            mp[word] = true;
+        }
+
+        return solve (s,0,mp);
+    }
+};
