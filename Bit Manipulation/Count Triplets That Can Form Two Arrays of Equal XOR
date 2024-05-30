@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int countTriplets(vector<int>& arr) {
+        
+        int cnt = 0;
+
+        for(int i=0; i<arr.size(); i++){
+
+            int currans = 0;
+
+            for(int j=i; j<arr.size(); j++){
+
+                currans ^= arr[j];
+
+                if(currans==0) cnt+= j-i;
+            }
+        }
+
+        return cnt;
+    }
+};
