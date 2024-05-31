@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        
+        int Xor = 0;
+
+        for (auto &num : nums){
+            Xor ^= num;
+        }
+
+        int k = -1;
+
+        for(int i=0; i<=31; i++){
+
+            if ((1<<i)&Xor) {
+                k=i;
+                break;
+            }
+        }
+
+        int grp1 = 0;
+        int grp2 = 0;
+
+        for(int i=0; i<nums.size(); i++){
+
+            if ((1<<k)&nums[i]){
+                grp1 ^= nums[i];
+            }
+
+            else grp2 ^= nums[i];
+        }
+
+        return {grp1, grp2};
+    }
+};
