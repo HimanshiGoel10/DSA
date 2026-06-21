@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int maxIceCream(vector<int>& costs, int coins) {
+        int n = costs.size();
+
+        vector<int> freq (1e5+1,0);
+
+        for(auto &cost: costs){
+            freq[cost]++;
+        }
+
+        int cnt = 0;
+
+        for(int i=1; i<=1e5; i++){
+
+            int currCost = (long long)freq[i]*i;
+
+            if(currCost<=coins){
+                coins -= currCost;
+                cnt+= freq[i];
+            }
+
+            else{
+                int qty = coins/i;
+                cnt+= qty;
+                break;
+            }
+        }
+
+        return cnt;
+    }
+};
