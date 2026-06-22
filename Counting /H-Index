@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        vector<int> freq(1001, 0);
+        for(auto &citation: citations){
+            freq[citation]++;
+        }
+        int sum = 0;
+        for(int i=1000; i>=0; i--){
+            sum += freq[i];
+            if(sum>=i) return i;
+        }
+        return 0;
+    }
+};
