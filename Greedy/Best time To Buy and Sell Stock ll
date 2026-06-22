@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int profit = 0;
+        int buy = 1e9;
+
+        for(auto &price: prices){
+            if(buy<price){
+                profit += (price-buy);
+            }
+            buy = price;
+        }
+
+        return profit;
+    }
+};
