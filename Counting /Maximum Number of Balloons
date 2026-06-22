@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int maxNumberOfBalloons(string text) {
+        vector<int> freq (26,0);
+        for(auto &ch: text){
+            freq[ch-'a']++;
+        }
+        int cnt = min(freq['n'-'a'],min(freq[1], freq[0])); // n,b,a
+        cnt = min(cnt, min(freq['l'-'a']/2, freq['o'-'a']/2));
+        return cnt;
+    }
+};
