@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int dp[2001][2001];
+    bool solve (string &s, int idx1, int m, string &p, int idx2, int n){
+        if(idx1>=m){
+            for(int i=idx2; i<n; i++){
+                if(p[i]!='*') return false;
+            }
+            return true;
+        }
+        if(idx2>=n) return false;
+
+        if(dp[idx1][idx2]!=-1) return dp[idx1][idx2];
+
+        bool a = false;
+        bool b = false;
+        bool c = false;
+        bool d = false;
+
+        if(s[idx1]==p[idx2] || p[idx2]=='?'){
+            a = solve (s, idx1+1, m, p, idx2+1, n);
+        }
+
+        if(p[idx2]=='*'){
+            b = solve (s, idx1+1, m, p, idx2, n);
+            c = solve (s, idx1+1, m, p, idx2+1, n);
+            d = solve (s, idx1, m, p, idx2+1, n);
+
+        } 
+
+        return dp[idx1][idx2] = a||b||c||d;
+    }
+    bool isMatch(string s, string p) {
+        int m = s.size();
+        int n = p.size();
+
+        memset(dp,-1,sizeof(dp));
+        return solve (s, 0, m, p, 0, n);
+    }
+};
