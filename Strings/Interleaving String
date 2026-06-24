@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int dp[101][101][201];
+    bool solve (string &s1, int idx1, string &s2,int idx2, int m, int n, string &s3, int idx3, int l){
+
+        if(idx3>=l) return true;
+
+        if(dp[idx1][idx2][idx3]!=-1) return dp[idx1][idx2][idx3];
+
+        if(idx1>=m){
+            for(int j=idx2; j<n; j++,idx3++){
+                if(s3[idx3]!=s2[j]) return false;
+            }
+            return true;
+        }
+
+        if(idx2>=n){
+            for(int j=idx1; j<m; j++,idx3++){
+                if(s3[idx3]!=s1[j]) return false;
+            }
+            return true;
+        }
+
+        bool a = false;
+        bool b = false;
+
+        if(s1[idx1]==s3[idx3]){
+            a = solve(s1,idx1+1,s2,idx2,m,n,s3,idx3+1,l);
+        }
+
+        if(s2[idx2]==s3[idx3]){
+            b = solve(s1,idx1,s2,idx2+1,m,n,s3,idx3+1,l);
+        }
+
+        return dp[idx1][idx2][idx3]= a||b;
+    }
+    bool isInterleave(string s1, string s2, string s3) {
+        int m = s1.size();
+        int n = s2.size();
+
+        int l = s3.size();
+
+        memset(dp,-1,sizeof(dp));
+
+        if(m+n<l || m+n>l) return false;
+
+        return solve(s1,0,s2,0,m,n,s3,0,l);
+    }
+};
