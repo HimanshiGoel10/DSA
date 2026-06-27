@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int maximumLength(vector<int>& nums) {
+        unordered_map <long long,int> freq;
+
+        int maxLen = 0;
+        int count1 = 0;
+
+        for(auto &num: nums){
+            freq[num]++;
+            if(num==1) count1++;
+        }
+
+        if(count1%2==0) count1--;
+
+        maxLen = max(maxLen, count1);
+
+        for(auto it: freq){
+            long long num = it.first;
+            int f = it.second;
+
+            if(num==1) continue;
+
+            int currLen = 0;
+
+            while(freq.count(num) && freq.at(num)>=2){
+                currLen += 2;
+                if(num>1e5) break;
+                num *= (long long)num;
+            }
+            if(freq.count(num) && freq.at(num)==1){
+                currLen += 1;
+            }
+            else {
+                currLen--;
+            }
+            maxLen = max(maxLen, currLen);
+        }
+        return maxLen;
+    }
+};
