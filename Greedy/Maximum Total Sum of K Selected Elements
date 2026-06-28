@@ -1,0 +1,23 @@
+class Solution {
+public:
+    typedef long long ll;
+    bool static cmp (int &a, int &b){
+        return a>b;
+    }
+    long long maxSum(vector<int>& nums, int k, int mul) {
+        ll ans = 0;
+
+        sort(begin(nums), end(nums), cmp);
+
+        int n = nums.size();
+
+        for(int i=0; i<n && k>0; i++,k--,mul--){
+            if(mul>1){
+                ans += (ll) nums[i]*mul;
+            }
+            else ans += (ll) nums[i];
+        }
+
+        return ans;
+    }
+};
