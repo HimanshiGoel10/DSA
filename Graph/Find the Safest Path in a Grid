@@ -1,0 +1,105 @@
+class Solution {
+public:
+    typedef pair<int,int> p;
+    vector<vector<int>> directions = {{-1,0},{1,0},{0,1},{0,-1}};
+
+    bool isSafe (int i, int j, int m, int n){
+        return i>=0 && i<m && j>=0 && j<n; 
+    }
+
+    bool solve(vector<vector<int>>& grid, int i, int j, int m, int n,
+    vector<vector<bool>> &visited, int minVal){
+
+        if(grid[i][j]< minVal) return false;
+        if(i==m-1 && j==n-1){
+            return true;
+        }
+
+        bool ans = false;
+
+        for(auto &dir: directions){
+            int new_i = i+dir[0];
+            int new_j = j+dir[1];
+
+            if(isSafe(new_i, new_j, m, n) && !visited[new_i][new_j]){
+                visited[new_i][new_j] = true;
+                if(solve(grid, new_i, new_j, m, n, visited, minVal)) return true;
+            }
+        }
+
+        return ans;
+    }
+
+    int maximumSafenessFactor(vector<vector<int>>& grid) {
+        // multisource bfs
+        // BS for max path value
+
+        int m = grid.size();
+        int n = grid[0].size();
+
+        queue <pair<p,int>> q;
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(grid[i][j]){
+                    q.push({{i,j},0});
+                    visited[i][j] = true;
+                }
+            }
+        }
+
+        int maxVal = 0;
+
+        while(!q.empty()){
+            auto front = q.front();
+            q.pop();
+
+            int i = front.first.first;
+            int j = front.first.second;
+
+            int dist = front.second;
+
+            maxVal = max(maxVal, dist);
+
+            grid[i][j] = dist;
+
+            for(auto &dir: directions){
+                int new_i = i+dir[0];
+                int new_j = j+dir[1];
+
+                if(isSafe(new_i, new_j, m, n) && !visited[new_i][new_j]){
+                    q.push({{new_i, new_j}, dist+1});
+                    visited[new_i][new_j] = true;
+                }
+            }
+        }
+
+        int ans = 0;
+
+        int low = 0;
+        int high = maxVal;
+
+        while(low<=high){
+            int mid = low+(high-low)/2;
+
+            for(int i=0; i<m; i++){
+                for(int j=0; j<n; j++){
+                    visited[i][j] = false;
+                }
+            }
+
+            visited[0][0] = true;
+
+            bool Possible = solve (grid,0,0,m,n,visited,mid);
+
+            if(Possible){
+                low = mid+1;
+                ans = mid; 
+            }
+            else high = mid-1;
+        }
+
+        return ans;
+    }
+};
