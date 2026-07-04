@@ -1,0 +1,41 @@
+class Solution {
+public:
+    typedef pair<int,int> p;
+
+    void dfs (unordered_map <int, vector<p>> &adj, int u, int &minRoad, unordered_set <int> &visited){
+
+        for(auto &edge: adj[u]){
+            int v = edge.first;
+            int score = edge.second;
+
+            minRoad = min(score, minRoad);
+
+            if(visited.find(v)==visited.end()){
+                visited.insert(v);
+                dfs(adj,v,minRoad,visited);
+            }
+        }
+    }
+
+    int minScore(int n, vector<vector<int>>& roads) {
+        int minRoad =  1e5;
+
+        unordered_set <int> visited;
+        visited.insert(1);
+
+        unordered_map <int, vector<p>> adj;
+
+        for(auto &road: roads){
+            int u = road[0];
+            int v = road[1];
+            int dist = road[2];
+
+            adj[u].push_back({v,dist});
+            adj[v].push_back({u,dist});
+        }
+
+        dfs(adj,1,minRoad,visited);
+
+        return minRoad;
+    }
+};
