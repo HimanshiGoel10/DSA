@@ -1,0 +1,54 @@
+/*
+Definition for Node
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
+typedef pair<Node*,int> p;
+
+class Solution {
+  public:
+    vector<int> bottomView(Node *root) {
+
+        int idx [200005];
+        memset(idx, -1, sizeof(idx));
+        
+        queue <p> q;
+        
+        q.push({root, 0});
+        
+        while(!q.empty()){
+            auto front = q.front();
+            q.pop();
+            
+            Node* node = front.first;
+            int index = front.second;
+            
+            idx[index+100000] = node->data;
+            
+            if(node->left){
+                q.push({node->left, index-1});
+            }
+            if(node->right){
+                q.push({node->right, index+1});
+            }
+        }
+        
+        vector<int> result;
+        
+        for(int i=0; i<200001; i++){
+            if(idx[i]!=-1) result.push_back(idx[i]);
+        }
+        
+        return result;
+    }
+};
