@@ -1,0 +1,27 @@
+class Solution {
+public:
+    map <string,bool> mp;
+    bool solve (string &s, string &t, int i, int j, int cnt){
+
+        if(i>=s.size()) return true;
+
+        if(j>=t.size() || s.size()-i> t.size()-j) return false;
+
+        string str = to_string(i)+"-"+to_string(j)+"-"+to_string(cnt);
+        if(mp.find(str)!=mp.end()) return mp[str];
+
+        bool a = false;
+
+        if(s[i]==t[j]){
+            a = solve (s,t,i+1,j+1,cnt);
+        }
+
+        bool b = cnt==1 && solve (s,t,i+1,j+1,cnt-1);
+        bool c = solve (s,t,i,j+1,cnt);
+
+        return mp[str] = a||b||c;
+    }
+    bool canMakeSubsequence(string s, string t) {
+        return solve (s,t,0,0,1);
+    }
+};
