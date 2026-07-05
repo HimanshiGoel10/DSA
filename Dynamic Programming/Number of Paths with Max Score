@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int dp[101][101];
+    int dp2[101][101][2001];
+
+    const int mod = 1e9+7;
+    int solve (vector<string>& board, int r, int c, int n){
+
+        if(r<0 || r>=n || c<0 || c>=n || board[r][c]=='X') return INT_MIN;
+
+        if(dp[r][c]!=-1) return dp[r][c];
+
+        if(r==0 && c==0){
+            return 0;
+        }
+
+        int currScore = 0;
+
+        if(r!=n-1 || c!=n-1) currScore += board[r][c]-'0';
+
+        int a = solve(board,r-1,c,n);
+        int b = solve(board,r-1,c-1,n);
+        int C = solve(board,r,c-1,n);
+
+        return dp[r][c] = currScore + max(a,max(b,C));
+    }
+    int solve2 (vector<string>& board, int r, int c, int n, int currScore, int score){
+
+        if(r<0 || r>=n || c<0 || c>=n || board[r][c]=='X') return 0;
+
+        if(r==0 && c==0){
+            return (currScore==score);
+        }
+
+        if(r!=n-1 || c!=n-1) currScore += board[r][c]-'0';
+
+        if(dp2[r][c][currScore]!=-1) return dp2[r][c][currScore];
+
+        int a = solve2(board,r-1,c,n,currScore,score);
+        int b = solve2(board,r-1,c-1,n,currScore,score);
+        int C = solve2(board,r,c-1,n,currScore,score);
+
+        return dp2[r][c][currScore] = (a+b+C)%mod;
+    }
+    vector<int> pathsWithMaxScore(vector<string>& board) {
+        int n = board.size();
+
+        memset(dp,-1,sizeof(dp));
+        memset(dp2,-1,sizeof(dp2));
+
+        int maxScore = solve (board,n-1,n-1,n);
+
+        if(maxScore<0) return {0,0};
+
+        int cnt = solve2 (board,n-1,n-1,n,0,maxScore);
+
+        return {maxScore,cnt};
+    }
+};
