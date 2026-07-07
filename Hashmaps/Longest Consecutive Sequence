@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_map <int,bool> isPresent;
+        set <int> isDone;
+
+        for(auto &num: nums){
+            isPresent[num] = true;
+        }
+
+        int maxLen = 0;
+
+        for (auto num: nums){
+            if(isPresent[num-1] || isDone.find(num)!=isDone.end()) continue;
+            isDone.insert(num);
+
+            int cnt = 0;
+            while(isPresent[num]){
+                cnt++;
+                num++;
+            }
+            maxLen = max(maxLen, cnt);
+        }
+
+        return maxLen;
+    }
+};
