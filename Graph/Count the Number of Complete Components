@@ -1,0 +1,41 @@
+class Solution {
+public:
+    typedef pair<int,int> p;
+
+    void dfs (vector<bool> &visited, unordered_map <int,vector<int>> &adj, int u, int &cnt, int &deg){
+        visited[u] = true;
+
+        cnt++;
+        if(adj[u].size()<deg){
+            deg = adj[u].size();
+        }
+
+        for(auto &v: adj[u]){
+            if(visited[v]) continue;
+            dfs (visited,adj,v,cnt,deg);
+        }
+    }
+    int countCompleteComponents(int n, vector<vector<int>>& edges) {
+        vector<bool> visited(n, false);
+
+        unordered_map <int,vector<int>> adj;
+
+        for(auto &edge: edges){
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
+        }
+
+        int count = 0;
+
+        for(int i=0; i<n; i++){
+            if(!visited[i]){
+                int cnt = 0;
+                int deg = n;
+                dfs (visited,adj,i, cnt, deg);
+                if(cnt == deg+1) count++;
+            }
+        }
+
+        return count;
+    }
+};
