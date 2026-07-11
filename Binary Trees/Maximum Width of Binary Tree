@@ -1,0 +1,39 @@
+class Solution {
+public:
+    typedef pair<TreeNode*,int> p;
+    int widthOfBinaryTree(TreeNode* root) {
+        queue <p> q;
+        q.push({root,0});
+
+        int maxWidth = 0;
+
+        while(!q.empty()){
+            int n = q.size();
+
+            int currMin = INT_MAX;
+            int currMax = INT_MIN;
+
+            while(n--){
+                p front = q.front();
+                q.pop();
+
+                TreeNode* node = front.first;
+                int idx = front.second;
+
+                currMin = min(currMin,idx);
+                currMax = max(currMax,idx);
+
+                if(node->left){
+                    q.push({node->left,(long long)2*idx+1});
+                }
+                if(node->right){
+                    q.push({node->right,(long long)2*idx+2});
+                }
+            }
+
+            maxWidth = max(maxWidth, currMax-currMin+1);
+        }
+
+        return maxWidth;
+    }
+};
