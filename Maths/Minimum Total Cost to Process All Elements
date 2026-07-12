@@ -1,0 +1,23 @@
+class Solution {
+public:
+    const int mod = 1e9+7;
+    int minimumCost(vector<int>& nums, int k) {
+        long long total = accumulate(begin(nums),end(nums),0LL);
+
+        long long required = total/k;
+
+        if(total%k==0) required--;
+
+        long long a = required%mod;
+        long long b = (required+1)%mod;
+        
+        if(a % 2)
+            b = (b * 500000004) % mod;
+        else
+            a = (a * 500000004) % mod;
+
+        long long ans = (long long)(a%mod*b%mod)%mod; 
+
+        return ans;
+    }
+};
