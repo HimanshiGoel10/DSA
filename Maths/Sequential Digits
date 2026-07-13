@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void generate (int num, vector<int> &sequences) {
+        sequences.push_back(num);
+
+        int lastDigit = num%10;
+
+        if(lastDigit==9) return;
+
+        num *= 10;
+        num += lastDigit+1;
+
+        generate(num, sequences);
+    }
+    vector<int> sequentialDigits(int low, int high) {
+        vector<int> sequences;
+        vector<int> result;
+
+        for(int i=1; i<=9; i++){
+            generate (i, sequences);
+        }
+
+        for(int i=0; i<sequences.size(); i++){
+            if(sequences[i]>=low && sequences[i]<=high){
+                result.push_back(sequences[i]);
+            }
+        }
+
+        sort(begin(result),end(result));
+
+        return result;
+    }
+};
