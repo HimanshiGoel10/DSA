@@ -1,0 +1,52 @@
+class Allocator {
+public:
+    vector<int> memory;
+    int n;
+    Allocator(int n) {
+        this->n = n;
+
+        for(int i=0; i<n; i++){
+            memory.push_back(-1);
+        }
+    }
+    
+    int allocate(int size, int mID) {
+        int i=0;
+        bool ans = false;
+        for(i=0; i<n; i++){
+            int j=i;
+            for(j=i; j<i+size && j<n; j++){
+                if(memory[j]!=-1){
+                    i=j;
+                    break;
+                }
+            }
+            if(j==i+size){
+                for(j=i; j<i+size; j++){
+                    memory[j] = mID;
+                }
+                ans = true;
+                break;
+            }
+        }
+        return ans ? i: -1;
+    }
+    
+    int freeMemory(int mID) {
+        int cnt =0;
+        for(int i=0; i<n; i++){
+            if(memory[i]==mID){
+                cnt++;
+                memory[i] = -1;
+            }
+        }
+        return cnt;
+    }
+};
+
+/**
+ * Your Allocator object will be instantiated and called as such:
+ * Allocator* obj = new Allocator(n);
+ * int param_1 = obj->allocate(size,mID);
+ * int param_2 = obj->freeMemory(mID);
+ */
