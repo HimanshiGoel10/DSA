@@ -1,0 +1,38 @@
+class Solution {
+  public:
+    bool check (unordered_map <int,vector<int>> &adj, vector<bool> &visited, vector<bool> &pathVisited,
+    int u){
+        
+        visited[u] = true;
+        pathVisited[u] = true;
+        
+        for(auto &v: adj[u]){
+            if(visited[v]){
+                if(pathVisited[v]) return true;
+                continue;
+            }
+            if(check(adj,visited,pathVisited,v)) return true;
+        }
+        
+        pathVisited[u] = false;
+        return false;
+    }
+    bool isCyclic(int V, vector<vector<int>> &edges) {
+        
+        unordered_map <int,vector<int>> adj;
+        
+        for(auto &edge: edges){
+            adj[edge[0]].push_back(edge[1]);
+        }
+        
+        vector<bool> visited (V, false);
+        
+        for(int i=0; i<V; i++){
+            
+            vector<bool> pathVisited(V, false);
+            if(!visited[i] && check(adj, visited, pathVisited, i)) return true;
+        }
+        
+        return false;
+    }
+};
