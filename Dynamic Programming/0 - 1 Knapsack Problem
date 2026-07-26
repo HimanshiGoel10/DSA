@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    int dp[1001][1001];
+    int solve (vector<int> &wt, vector<int> &val, int idx, int W, int n){
+        
+        if(idx>=n || W==0) return 0;
+        
+        if(dp[idx][W]!=-1) return dp[idx][W];
+        
+        int take = 0;
+        
+        if(wt[idx]<=W){
+            take = val[idx]+solve(wt,val,idx+1,W-wt[idx],n);
+        }
+        
+        int notTake = solve(wt,val,idx+1,W,n);
+        
+        return dp[idx][W] = max(take, notTake);
+    }
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        memset(dp,-1,sizeof(dp));
+        int n = val.size();
+        return solve (wt,val,0,W,n);
+    }
+};
