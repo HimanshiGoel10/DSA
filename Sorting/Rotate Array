@@ -1,0 +1,13 @@
+class Solution {
+  public:
+    void rotateArr(vector<int>& arr, int d) {
+        int n = arr.size();
+        
+        d = d%n;
+        
+        reverse(begin(arr), end(arr));
+        
+        reverse(begin(arr), begin(arr)+n-d);
+        reverse(begin(arr)+n-d, end(arr));
+    }
+};
