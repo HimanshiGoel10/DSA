@@ -1,0 +1,56 @@
+class Solution {
+  public:
+    void mergeSort (vector<int> &arr, int si, int ei, int &count){
+        if(si>=ei) return;
+        
+        int mid = si + (ei-si)/2;
+        
+        mergeSort (arr, si, mid, count);
+        mergeSort (arr, mid+1, ei, count);
+        
+        int i = si;
+        int j = mid+1;
+        
+        vector<int> temp;
+        
+        while(i<=mid && j<=ei){
+            if(arr[i]<=arr[j]){
+                temp.push_back(arr[i]);
+                i++;
+            }
+            
+            else {
+                temp.push_back(arr[j]);
+                count += mid-i+1;
+                j++;
+            }
+        }
+        
+        while(i<=mid){
+            temp.push_back(arr[i]);
+            i++;
+        }
+        
+        while(j<=ei){
+            temp.push_back(arr[j]);
+            j++;
+        }
+        
+        int k = 0;
+        
+        for(int i=si; i<=ei; i++){
+            arr[i] = temp[k];
+            k++;
+        }
+        
+    }
+    int inversionCount(vector<int> &arr) {
+        int n = arr.size();
+        
+        int count = 0;
+        
+        mergeSort (arr,0,n-1, count);
+        
+        return count;
+    }
+};
