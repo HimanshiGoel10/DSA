@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    int minJumps(vector<int>& arr) {
+        
+        int n = arr.size();
+        
+        int limit = 0;
+        int maxReachable = 0;
+        
+        int jumps = 0;
+        
+        for(int i=0; i<n; i++){
+            maxReachable = max(maxReachable, i+arr[i]);
+            if(i==limit){
+                
+                if(limit==maxReachable) return -1;
+                
+                jumps++;
+                limit = maxReachable;
+                
+                if(maxReachable>=n-1) break;
+            }
+        }
+        
+        return jumps;
+    }
+};
