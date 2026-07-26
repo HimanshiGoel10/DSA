@@ -1,0 +1,42 @@
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    vector<int> solve (Node* root){
+        
+        if(!root){
+            return {1,INT_MAX,INT_MIN};
+        }
+        
+        if(root->left==NULL && root->right==NULL){
+            return {1, root->data, root->data};
+        }
+        
+        vector<int> left = solve(root->left);
+        vector<int> right = solve(root->right);
+        
+        bool isBst = root->data > left[2] && root->data < right[1];
+        
+        return {
+            left[0] && right[0] && isBst,
+            min(left[1],root->data),
+            max(right[2],root->data)
+        };
+    }
+    bool isBST(Node* root) {
+        vector <int> ans = solve (root);
+        return ans[0];
+    }
+};
