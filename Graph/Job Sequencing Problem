@@ -1,0 +1,58 @@
+class Solution {
+  public:
+    typedef pair<int,int> p;
+    
+    int find (int x, vector<int>&parent){
+        if(parent[x]==x) return x;
+        
+        return parent[x] = find(parent[x], parent);
+    }
+    
+    void Union (int x, int y, vector<int>&parent){
+        int parentX = find(x, parent);
+        int parentY = find(y, parent);
+        
+        if(parentX==parentY) return;
+        
+        parent[parentY] = parentX;
+    }
+    
+    bool static cmp (p &pair1, p &pair2){
+        return pair1.first> pair2.first;
+    }
+    vector<int> jobSequencing(vector<int> &deadline, vector<int> &profit) {
+        int n = profit.size();
+        
+        vector<p> vec;
+        
+        for(int i=0; i<n; i++){
+            vec.push_back({profit[i], deadline[i]});
+        }
+        
+        sort(begin(vec), end(vec), cmp);
+        
+        vector<int> parent;
+        
+        for(int i=0; i<=n; i++) parent.push_back(i);
+        
+        int jobs = 0;
+        int maxProfit = 0;
+        
+        for(int i=0; i<n; i++){
+            int value = vec[i].first;
+            int dLine = vec[i].second;
+            
+            int availableSlot = find(dLine, parent);
+            
+            if(availableSlot){
+                jobs++;
+                maxProfit += value;
+                
+                Union(availableSlot-1, availableSlot, parent);
+            }
+            
+        }
+        
+        return {jobs, maxProfit};
+    }
+};
