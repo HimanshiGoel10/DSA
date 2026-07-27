@@ -1,0 +1,55 @@
+class Solution {
+  public:
+    typedef long long ll;
+    bool check (vector<int> &arr, ll maxPages, int k){
+        
+        int studs = 1;
+        
+        int i = 0;
+        
+        ll currPages = 0;
+        
+        while(i<arr.size()){
+            
+            if(arr[i]>maxPages) return false;
+            
+            if(currPages+arr[i]>maxPages){
+                currPages=0;
+                studs++;
+                continue;
+            }
+            
+            if(studs>k) return false;
+            
+            currPages += (ll)arr[i];
+            i++;
+        }
+        
+        return studs<=k;
+    }
+    int findPages(vector<int> &arr, int k) {
+        int n = arr.size(); 
+        if(k>n) return -1;
+        
+        ll high = accumulate(begin(arr), end(arr), 0LL);
+        ll low = *max_element(begin(arr), end(arr));
+        
+        int ans = -1;
+        
+        while(low<=high){
+            
+            ll mid = low + (high-low)/2;
+            
+            if(check(arr,mid,k)){
+                ans = mid;
+                high = mid-1;
+            }
+            
+            else{
+                low = mid+1;
+            }
+        }
+        
+        return ans;
+    }
+};
