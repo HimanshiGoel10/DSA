@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    int maxProduct(vector<int> &arr) {
+        int n = arr.size();
+        
+        int ans = arr[0];
+        
+        int maxProd = arr[0];
+        int minProd = arr[0];
+        
+        for(int i=1; i<n; i++){
+            int a = arr[i]*maxProd;
+            int b = arr[i]*minProd;
+            int c = arr[i];
+            
+            maxProd = max(max(a,b),c);
+            minProd = min(min(a,b),c);
+            
+            ans = max(ans, maxProd);
+        }
+        
+        return ans;
+    }
+};
