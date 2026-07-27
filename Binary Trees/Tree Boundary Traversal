@@ -1,0 +1,57 @@
+/* Node Structure
+class Node {
+  public:
+    int data;
+    Node* left, *right;
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+}; */
+
+class Solution {
+  public:
+    void pushLeft (Node *root, vector<int> &result){
+        while(root){
+            if(!root->left && !root->right) break;
+            
+            result.push_back(root->data);
+            
+            if(root->left) root = root->left;
+            
+            else root = root->right;
+        }
+    } 
+    
+    void pushRight (Node *root, vector<int> &result){
+        if(!root || (!root->left && !root->right)) return;
+        if(root->right){
+            pushRight(root->right, result);
+        }
+        else{
+            pushRight(root->left, result);
+        }
+        result.push_back(root->data);
+    } 
+    
+    void pushLeaves (Node *root, vector<int> &result) {
+        if(!root) return;
+        if(!root->left && !root->right){
+            result.push_back(root->data);
+        }
+        pushLeaves(root->left, result);
+        pushLeaves(root->right, result);
+    }
+    vector<int> boundaryTraversal(Node *root) {
+        vector<int> result;
+        
+        result.push_back(root->data);
+        
+        pushLeft(root->left, result);
+        pushLeaves(root->left, result);
+        pushLeaves(root->right, result);
+        pushRight(root->right, result);
+        
+        return result;
+    }
+};
