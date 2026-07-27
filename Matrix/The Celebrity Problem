@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    int celebrity(vector<vector<int>>& mat) {
+        int n = mat.size();
+        
+        int i = 0;
+        int j = n-1;
+        
+        while(i<j){
+            if(mat[i][j] || !mat[j][i]){
+                i++;
+            }
+            else if(mat[j][i] || !mat[i][j]){
+                j--;
+            }
+        }
+        
+        for(int k=0; k<n; k++){
+            if(k!=i && mat[i][k]) return -1;
+            if(k!=i && !mat[k][i]) return -1;
+        }
+        
+        return i;
+    }
+};
