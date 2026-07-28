@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string smallestPalindrome(string s) {
+        vector <int> freq (26,0);
+        for(auto &ch: s){
+            freq[ch-'a']++;
+        }
+
+        string result = s;
+        int n = s.size();
+        int i = 0;
+        int j = n-1;
+
+        for(int k=0; k<26 && i<=j; k++){
+            if(freq[k]%2){
+                result[n/2] = k+'a';
+                freq[k]--;
+            }
+            while(freq[k]>0){
+                result[i] = k+'a';
+                result[j] = k+'a';
+                i++; j--;
+                freq[k]-=2;
+            }
+        }
+
+        return result;
+    }
+};
