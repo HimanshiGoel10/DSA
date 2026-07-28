@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    void mergeArrays(vector<int>& a, vector<int>& b) {
+        int m = a.size();
+        int n = b.size();
+        
+        int i = m-1;
+        int j = 0;
+        
+        while(i>=0 && j<n){
+            
+            if(a[i]>b[j]){
+                swap(a[i],b[j]);
+                j++;
+                i--;
+            }
+            
+            else break;
+        }
+        
+        sort(begin(a), end(a));
+        sort(begin(b), end(b));
+    }
+};
