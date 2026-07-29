@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    void sortStack(stack<int> &st) {
+        if(st.size()<=1) return;
+        
+        int element = st.top();
+        
+        st.pop();
+        
+        sortStack(st);
+        
+        stack<int> temp;
+        
+        while(!st.empty() && st.top()>element){
+            temp.push(st.top());
+            st.pop();
+        }
+        
+        st.push(element);
+        
+        while(!temp.empty()){
+            st.push(temp.top());
+            temp.pop();
+        }
+    }
+};
