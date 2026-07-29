@@ -1,0 +1,37 @@
+class Solution {
+  public:
+    int kthElement(vector<int> &a, vector<int> &b, int k) {
+        
+        int m = a.size();
+        int n = b.size();
+        
+        if(m>n){
+            return kthElement(b,a,k);
+        }
+        
+        int low = max(0,k-n);
+        int high = min(m,k);
+        
+        while(low<=high){
+            
+            int mid = low+(high-low)/2;
+            
+            int required = k-mid;
+            
+            int x1 = mid==0? INT_MIN : a[mid-1];
+            int y1 = mid==m ? INT_MAX : a[mid];
+            
+            int x2 = required==0? INT_MIN : b[required-1];
+            int y2 = required==n ? INT_MAX : b[required];
+            
+            if(max(x1,x2)<=min(y1,y2)){
+                return max(x2,x1);
+            }
+            
+            if(x1>y2) high = mid-1;
+            else low = mid+1;
+        }
+        
+        return -1;
+    }
+};
