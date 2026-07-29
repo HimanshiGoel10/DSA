@@ -1,0 +1,45 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+
+        int m = nums1.size();
+        int n = nums2.size();
+
+        if(m>n){
+            return findMedianSortedArrays(nums2, nums1);
+        }
+
+        double ans = 0;
+
+        int required = (m+n+1)/2;
+
+        int low = 0;
+        int high = m;
+
+        while(low <= high){
+
+            int mid = low + (high-low)/2;
+            int remaining = required-mid;
+
+            int x1 = mid==0? INT_MIN : nums1[mid-1];
+            int y1 = mid==m? INT_MAX : nums1[mid];
+
+            int x2 = remaining==0? INT_MIN : nums2[remaining-1];
+            int y2 = remaining==n? INT_MAX : nums2[remaining];
+
+            if(max(x1,x2)<=min(y1,y2)){
+                if((m+n)%2){
+                    return max(x1,x2);
+                }
+                else{
+                    return (max(x1,x2)+min(y1,y2))/(2*1.0);
+                }
+            }
+
+            if(x1>y2) high = mid-1;
+            else low = mid+1;
+        }
+
+        return -1;
+    }
+};
