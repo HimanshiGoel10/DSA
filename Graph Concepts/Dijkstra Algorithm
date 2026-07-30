@@ -1,0 +1,45 @@
+class Solution {
+  public:
+    typedef pair <int,int> p;
+    vector<int> dijkstra(int V, vector<vector<int>> &edges, int src) {
+        vector <int> result (V, INT_MAX);
+        
+        unordered_map <int, vector<p>> adj;
+        
+        for(int i=0; i<edges.size(); i++){
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int wt = edges[i][2];
+            adj[u].push_back({v,wt});
+            adj[v].push_back({u,wt});
+        }
+        
+        priority_queue <p, vector<p>, greater<p>> pq;
+        
+        result[src] = 0;
+        pq.push({0,src});
+        
+        while(!pq.empty()){
+            
+            p top = pq.top();
+            pq.pop();
+            
+            int node = top.second;
+            int dist = top.first;
+            
+            if(dist>result[node]) continue;
+            
+            for(auto &neighbor: adj[node]){
+                int v = neighbor.first;
+                int cost = neighbor.second;
+                
+                if(dist+cost<result[v]){
+                    result[v] = dist+cost;
+                    pq.push({dist+cost, v});
+                }
+            }
+        }
+        
+        return result;
+    }
+};
