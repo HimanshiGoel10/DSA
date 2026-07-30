@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int dp[101][10001];
+
+    int solve (int eggs, int floors){
+
+        if(floors==0) return 0;
+
+        if(eggs==1){
+            return floors;
+        }
+
+        if(dp[eggs][floors]!=-1) return dp[eggs][floors];
+
+        int ans = 1e9;
+
+        int low = 1;
+        int high = floors;
+
+        while(low<=high){
+            int mid = low + (high-low)/2;
+
+            int breaks = solve(eggs-1, mid-1);
+            int survives = solve(eggs, floors-mid);
+
+            ans = min(ans, 1+max(breaks,survives));
+
+            if(breaks>survives){
+                high = mid-1;
+            }
+            else{
+                low = mid+1;
+            }
+        }
+
+        return dp[eggs][floors] = ans;
+    }
+    int superEggDrop(int k, int n) {
+        memset(dp,-1,sizeof(dp));
+        return solve (k, n);
+    }
+};
