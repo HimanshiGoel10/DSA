@@ -1,0 +1,46 @@
+class Solution {
+  public:
+    void solve (string &s, int idx, int n, string &curr, vector<string> &result, int dots){
+        
+        if(idx>=n){
+            if(dots!=0) return;
+            curr.pop_back();
+            result.push_back(curr);
+            return;
+        }
+        
+        if(dots==0) return;
+        
+        int num = 0;
+        
+        for(int i=idx; i<n; i++){
+            num = num*10 + (s[i]-'0');
+            
+            if(num>=256) break;
+            
+            if (i > idx && s[idx] == '0') {
+                break;
+            }
+            
+            string newCurr = curr+to_string(num);
+            
+            newCurr+='.';
+            
+            solve(s, i+1, n, newCurr, result, dots-1);
+        }
+        
+        
+    }
+    vector<string> generateIp(string &s) {
+        
+        int n = s.size();
+        
+        string curr;
+        
+        vector<string> result;
+        
+        solve (s, 0, n, curr, result, 4);
+        
+        return result;
+    }
+};
