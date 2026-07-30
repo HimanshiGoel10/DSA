@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    int dp[1001];
+    int solve (vector<int> &price, int n){
+        if(n==0) return 0;
+        
+        if(dp[n]!=-1) return dp[n];
+        
+        int ans = price[n-1];
+        
+        for(int i=0; i<n; i++){
+            ans = max(ans, price[i]+solve(price, n-i-1));
+        }
+        
+        return dp[n] = ans;
+    }
+    int cutRod(vector<int> &price) {
+        int n = price.size();
+        
+        memset(dp,-1,sizeof(dp));
+        
+        return solve (price, n);
+    }
+};
