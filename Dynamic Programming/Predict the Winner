@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool solve (vector<int>& nums, int idx, int scoreA, int scoreB, bool turnA, int n){
+        if(idx>n){
+            return scoreA >= scoreB;
+        }
+
+        bool a = false;
+        bool b = false;
+
+        if(turnA){
+            a = solve(nums,idx+1,scoreA+nums[idx], scoreB, !turnA, n);
+            b = solve(nums,idx,scoreA+nums[n], scoreB, !turnA, n-1);
+        }
+        else{
+            a = solve(nums,idx+1,scoreA, scoreB+nums[idx], !turnA, n);
+            b = solve(nums,idx,scoreA, scoreB+nums[n], !turnA, n-1);
+        }
+
+        return turnA ? a||b : (a&&b);
+    }
+    bool predictTheWinner(vector<int>& nums) {
+        int scoreA = 0;
+        int scoreB = 0;
+
+        int n = nums.size();
+
+        return solve(nums,0, scoreA, scoreB, true, n-1);
+    }
+};
