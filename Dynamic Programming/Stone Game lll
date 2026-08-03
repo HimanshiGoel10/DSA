@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int dp[50001][2];
+    int solve (vector<int>& stoneValue, int idx, bool AliceTurn, int n){
+        if(idx>=n) return 0;
+
+        if(dp[idx][AliceTurn]!=-1) return dp[idx][AliceTurn];
+
+        if(AliceTurn){
+            int score = 0;
+            int ans = INT_MIN;
+
+            for(int i=idx; i<n && i<idx+3; i++){
+                score += stoneValue[i];
+                ans = max(ans, score+solve(stoneValue, i+1, !AliceTurn, n));
+            }
+
+            return dp[idx][AliceTurn] = ans;
+        }
+
+        else {
+            int score = 0;
+            int ans = INT_MAX;
+
+            for(int i=idx; i<n && i<idx+3; i++){
+                score += stoneValue[i];
+                ans = min(ans, solve(stoneValue, i+1, !AliceTurn, n)-score);
+            }
+
+            return dp[idx][AliceTurn] = ans;
+        }
+
+        return -1;
+
+    }
+    string stoneGameIII(vector<int>& stoneValue) {
+        memset(dp,-1,sizeof(dp));
+        int score = solve (stoneValue,0,true,stoneValue.size());
+        if(score==0) return "Tie";
+        return score < 0 ? "Bob": "Alice";
+    }
+};
