@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> findMissingElements(vector<int>& nums) {
+        vector<bool> isPresent(100, false);
+
+        for(auto &num: nums) isPresent[num] = true;
+
+        vector<int> ans;
+
+        int minEle = *min_element(begin(nums), end(nums));
+        int maxEle = *max_element(begin(nums), end(nums));
+
+        for(int i=minEle+1; i<maxEle; i++){
+            if(!isPresent[i]){
+                ans.push_back(i);
+            }
+        }
+
+        return ans;
+    }
+};
