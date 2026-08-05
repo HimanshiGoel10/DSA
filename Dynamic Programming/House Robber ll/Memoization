@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int dp[101][2];
+    int solve (vector<int>& nums, int idx, bool taken0th, int n){
+        if(idx>=n){
+            return 0;
+        }
+
+        if(dp[idx][taken0th]!=-1) return dp[idx][taken0th];
+
+        if(idx==n-1 && taken0th) return 0;
+
+        // take
+
+        int a = idx ==0 ? nums[idx] + solve (nums, idx+2, true, n) : 
+        nums[idx] + solve (nums, idx+2, taken0th, n);
+
+        // not take
+
+        int b = solve(nums, idx+1, taken0th, n);
+
+        return dp[idx][taken0th] = max(a,b);
+    }
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        bool taken0th = false;
+
+        memset(dp,-1,sizeof(dp));
+
+        return solve (nums, 0, taken0th, n);
+    }
+};
