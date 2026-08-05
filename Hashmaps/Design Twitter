@@ -1,0 +1,53 @@
+class Twitter {
+public:
+    typedef pair<int,int> p;
+
+    vector <p> tweets; // {tweetId, userId}
+    map <int, map<int,bool>> follows; // userId -> {ids of the ppl he follows}
+    Twitter() {
+        
+    }
+    
+    void postTweet(int userId, int tweetId) { // O(1)
+        tweets.push_back({tweetId, userId});
+    }
+    
+    vector<int> getNewsFeed(int userId) { // O(n)
+        vector<int> result;
+
+        int n = tweets.size();
+        int cnt = 0;
+
+        for(int i=n-1; i>=0; i--){
+            p tweet = tweets[i];
+            int tweetId = tweet.first;
+            int UserId = tweet.second;
+
+            if(userId==UserId || follows[userId][UserId]){
+                cnt++;
+                result.push_back(tweetId);
+            }
+
+            if(cnt==10) break;
+        }
+
+        return result;
+    }
+    
+    void follow(int followerId, int followeeId) { // O(1)
+        follows[followerId][followeeId] = true;
+    }
+    
+    void unfollow(int followerId, int followeeId) { //O(1)
+        follows[followerId][followeeId] = false;
+    }
+};
+
+/**
+ * Your Twitter object will be instantiated and called as such:
+ * Twitter* obj = new Twitter();
+ * obj->postTweet(userId,tweetId);
+ * vector<int> param_2 = obj->getNewsFeed(userId);
+ * obj->follow(followerId,followeeId);
+ * obj->unfollow(followerId,followeeId);
+ */
