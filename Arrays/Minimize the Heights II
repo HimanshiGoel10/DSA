@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    int getMinDiff(vector<int> &arr, int k) {
+        int n = arr.size();
+        
+        sort(begin(arr), end(arr));
+        
+        int minDiff = arr[n-1]-arr[0];
+        
+        int i = 1;
+        while(i<n && arr[i]<k) i++;
+        
+        while(i<n){
+            int minTower = min(arr[0]+k, arr[i]-k);
+            int maxTower = max(arr[n-1]-k, arr[i-1]+k);
+            
+            minDiff = min(minDiff, maxTower-minTower);
+            i++;
+        }
+        
+        return minDiff;
+    }
+};
