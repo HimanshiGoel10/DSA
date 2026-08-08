@@ -1,0 +1,38 @@
+/*
+Definition for Node
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    vector<int> reverseLevelOrder(Node *root) {
+        vector<int> ans;
+        
+        queue <Node*> q;
+        q.push(root);
+        
+        while(!q.empty()){
+            Node* front = q.front();
+            q.pop();
+            
+            ans.push_back(front->data);
+            
+            if(front->right) q.push(front->right);
+            if(front->left) q.push(front->left);
+        }
+        
+        reverse(begin(ans), end(ans));
+        
+        return ans;
+    }
+};
