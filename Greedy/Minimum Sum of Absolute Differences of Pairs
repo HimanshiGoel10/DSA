@@ -1,0 +1,15 @@
+class Solution {
+  public:
+    int findMinSum(vector<int>& a, vector<int>& b) {
+        sort(begin(a), end(a));
+        sort(begin(b), end(b));
+        
+        int sum = 0;
+        
+        for(int i=0; i<a.size(); i++){
+            sum += abs(a[i]-b[i]);
+        }
+        
+        return sum;
+    }
+};
