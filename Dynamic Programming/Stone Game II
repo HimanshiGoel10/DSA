@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int dp[101][2][201];
+    int solve (vector<int>& piles, int idx, bool aliceTurn, int m){
+        if(idx>=piles.size()){
+            return 0;
+        }
+
+        if(dp[idx][aliceTurn][m]!=-1) return dp[idx][aliceTurn][m];
+
+        int ans = 0;
+        int currStones = 0;
+
+        if(aliceTurn){
+            for(int i=idx; i<idx+(2*m) && i<piles.size(); i++){
+                currStones += piles[i];
+                ans = max(ans, currStones+solve(piles,i+1,!aliceTurn, max(m,i-idx+1)));
+            }
+            return ans;
+        }
+
+        ans = 1e9;
+
+        for(int i=idx; i<idx+(2*m) && i<piles.size(); i++){
+            ans = min(ans, solve(piles,i+1,!aliceTurn, max(m,i-idx+1)));
+        }
+
+        return dp[idx][aliceTurn][m] = ans;
+    }
+    int stoneGameII(vector<int>& piles) {
+        memset(dp,-1,sizeof(dp));
+        return solve (piles, 0, true, 1);
+    }
+};
