@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int dp[100001][2];
+    bool solve (int n, bool AliceTurn){
+        if(n==0){
+            return AliceTurn ? false: true;
+        }
+
+        if(dp[n][AliceTurn]!=-1) return dp[n][AliceTurn];
+
+        bool ans = false;
+
+        if(AliceTurn){
+            for(int i=1; i*i<=n; i++){
+                ans = ans || solve(n-i*i, !AliceTurn);
+            }
+        }
+
+        else{
+            ans = true;
+            for(int i=1; i*i<=n; i++){
+                ans = ans && solve(n-i*i, !AliceTurn);
+            }
+        }
+
+        return dp[n][AliceTurn] = ans;
+    }
+    bool winnerSquareGame(int n) {
+        memset(dp,-1,sizeof(dp));
+        return solve (n, true);
+    }
+};
