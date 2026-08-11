@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int missingInteger(vector<int>& nums) {
+        unordered_map <int,bool> isPresent;
+
+        for(auto &num: nums){
+            isPresent[num] = true;
+        }
+
+        int sum = nums[0];
+
+        for(int i=1; i<nums.size(); i++){
+            if(nums[i]!=nums[i-1]+1) break;
+            sum += nums[i];
+        }
+
+        while(isPresent[sum]){
+            sum++;
+        } 
+
+        return sum;
+    }
+};
