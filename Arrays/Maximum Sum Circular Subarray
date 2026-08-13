@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        // 1. max sum in non circular array
+        // 2. total sum of circular array - (minimum subarray sum)
+
+        int n = nums.size();
+        int maxSum = nums[0];
+        int currSum = nums[0];
+
+        for(int i=1; i<n; i++){
+            currSum = max(currSum+nums[i], nums[i]);
+            maxSum = max(maxSum, currSum);
+        }
+
+        int minSum = nums[0];
+        currSum = nums[0];
+
+        for(int i=1; i<n; i++){
+            currSum = min(currSum+nums[i], nums[i]);
+            minSum = min(minSum, currSum);
+        }
+
+        int total = accumulate(begin(nums), end(nums), 0);
+
+        if(maxSum<0) return maxSum; // all negatives
+
+        return max(maxSum, total-minSum);
+    }
+};
