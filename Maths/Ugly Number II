@@ -1,0 +1,28 @@
+class Solution {
+public:
+    typedef long long ll;
+    int nthUglyNumber(int n) {
+        priority_queue <ll, vector<ll>, greater<ll>> minHeap;
+        set <ll> used;
+
+        minHeap.push(1);
+
+        int cnt = 0;
+
+        while(cnt<n){
+            int num = minHeap.top();
+            minHeap.pop();
+            if(used.find(num)!=used.end()) continue;
+            cnt++;
+            if(cnt==n) return num;
+
+            used.insert(num);
+
+            minHeap.push((ll)num*2);
+            minHeap.push((ll)num*3);
+            minHeap.push((ll)num*5);
+        }
+
+        return -1;
+    }
+};
